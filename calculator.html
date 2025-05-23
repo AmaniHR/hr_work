@@ -3,66 +3,108 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>حاسبة معايير الترقية</title>
+  <title>حاسبة معايير الترقية | Amani HR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <style>
-    body { font-family: 'Tajawal', sans-serif; background-color: #f8f9fa; color: #333; margin: 0; padding: 20px; }
-    h1, h2 { color: #0d47a1; text-align: center; }
-    .form-section { background-color: #fff; padding: 20px; margin: 20px auto; border-radius: 10px; max-width: 700px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    label { font-weight: bold; display: block; margin-bottom: 10px; }
-    select, input[type="number"] { width: 100%; padding: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; }
-    .result-box { text-align: center; margin-top: 30px; padding: 20px; background-color: #e3f2fd; border-radius: 10px; font-size: 20px; font-weight: bold; }
-    button { background-color: #0d47a1; color: white; padding: 10px 30px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
-    .note { font-size: 14px; color: #666; margin-top: -15px; margin-bottom: 20px; }
+    body { font-family: 'Tajawal', sans-serif; background-color: #f8f9fa; }
+    .container { max-width: 800px; margin-top: 50px; }
+    .card { box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .progress { height: 22px; font-weight: bold; font-size: 14px; }
   </style>
 </head>
 <body>
 
-<h1>📊 حاسبة معايير الترقية</h1>
+<div class="container">
+  <h1 class="text-center text-primary mb-4">📊 حاسبة معايير الترقية</h1>
 
-<div class="form-section">
-  <label for="performance">1. تقييم الأداء الوظيفي:</label>
-  <select id="performance">
-    <option value="100">ممتاز (100%)</option>
-    <option value="75">جيد جدًا (75%)</option>
-    <option value="60">جيد (60%)</option>
-  </select>
+  <div class="card p-4">
+    <form id="promotionForm">
 
-  <label for="training">2. برامج تدريب بدون اختبار اجتياز:</label>
-  <select id="training">
-    <option value="0">لا يوجد</option>
-    <option value="15">برنامج حكومي واحد (15%)</option>
-    <option value="30">برنامجين حكوميين (30%)</option>
-    <option value="20">برنامج دولي واحد (20%)</option>
-    <option value="40">برنامجين دوليين (40%)</option>
-    <option value="35">برنامج حكومي + برنامج دولي (35%)</option>
-  </select>
-  <div class="note">⚠️ الحد الأقصى المعتمد هو برنامجين فقط، سواء حكومي أو دولي.</div>
+      <div class="mb-3">
+        <label class="form-label">1. تقييم الأداء الوظيفي:</label>
+        <select class="form-select" id="performanceRating">
+          <option value="100">ممتاز (100%)</option>
+          <option value="75">جيد جدًا (75%)</option>
+          <option value="60">جيد (60%)</option>
+        </select>
+        <div class="form-text">وزن هذا المعيار 30%</div>
+      </div>
 
-  <label for="exam">3. درجة اختبار القدرة المعرفية (من 0 إلى 100):</label>
-  <input type="number" id="exam" value="50" min="0" max="100">
+      <div class="mb-3">
+        <label class="form-label">2. برامج تدريب بدون اختبار اجتياز:</label>
+        <select class="form-select" id="trainingPrograms">
+          <option value="0">لا يوجد</option>
+          <option value="15">برنامج حكومي واحد (15%)</option>
+          <option value="30">برنامجين حكوميين (30%)</option>
+          <option value="20">برنامج دولي واحد (20%)</option>
+          <option value="40">برنامجين دوليين (40%)</option>
+          <option value="35">برنامج حكومي + دولي (35%)</option>
+        </select>
+        <div class="form-text text-warning">⚠️ الحد الأقصى المعتمد هو برنامجين فقط، سواء حكومي أو دولي.</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">3. برامج التعليم الذاتي (بحد أقصى 20 برنامج):</label>
+        <input type="number" class="form-control" id="selfLearningCount" min="0" max="20" value="0">
+        <div class="form-text">20 برنامج = 1% من وزن المعيار (كل برنامج = 0.05%)</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">4. التدريب على رأس العمل:</label>
+        <select class="form-select" id="onJobTraining">
+          <option value="0">لا يوجد</option>
+          <option value="50">بتقدير ممتاز (50%)</option>
+          <option value="25">بتقدير جيد جدًا (25%)</option>
+        </select>
+        <div class="form-text">بحد أقصى برنامج واحد فقط</div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">5. درجة اختبار القدرة المعرفية (من 0 إلى 100):</label>
+        <input type="number" class="form-control" id="examScore" min="0" max="100" value="50">
+        <div class="form-text">إذا كانت الدرجة أقل من 50 = لا تُحسب.</div>
+      </div>
+
+      <button type="button" class="btn btn-primary w-100" onclick="calculate()">🔍 احسب النتيجة</button>
+    </form>
+  </div>
+
+  <div class="card p-4 mt-4">
+    <h5 class="text-center mb-3">📊 النتيجة النهائية:</h5>
+    <div class="progress mb-2">
+      <div id="totalBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;">0%</div>
+    </div>
+    <p id="interpretation" class="text-center text-muted">💡 لم يتم الحساب بعد.</p>
+  </div>
 </div>
-
-<div class="form-section" style="text-align: center;">
-  <button onclick="calculate()">احسب النتيجة</button>
-</div>
-
-<div class="result-box" id="resultBox">💡 لم يتم الحساب بعد.</div>
 
 <script>
-  function calculate() {
-    const performance = parseFloat(document.getElementById('performance').value);
-    const training = parseFloat(document.getElementById('training').value);
-    const examScore = parseFloat(document.getElementById('exam').value);
+function calculate() {
+  const performance = parseFloat(document.getElementById("performanceRating").value);
+  const trainingPrograms = parseFloat(document.getElementById("trainingPrograms").value);
+  const selfLearning = Math.min(parseInt(document.getElementById("selfLearningCount").value), 20) * 0.05;
+  const onJobTraining = parseFloat(document.getElementById("onJobTraining").value);
+  const examScore = parseFloat(document.getElementById("examScore").value);
 
-    const score1 = (performance / 100) * 30;
-    const score2 = (training / 100) * 40;
-    const score3 = examScore >= 50 ? (examScore / 100) * 30 : 0;
+  const score1 = (performance / 100) * 30;
+  const score2 = ((trainingPrograms + selfLearning + onJobTraining) / 100) * 40;
+  const score3 = examScore >= 50 ? (examScore / 100) * 30 : 0;
 
-    const total = (score1 + score2 + score3).toFixed(2);
+  const total = (score1 + score2 + score3).toFixed(2);
 
-    document.getElementById('resultBox').textContent = "✅ النتيجة النهائية: " + total + "%";
-  }
+  const bar = document.getElementById("totalBar");
+  bar.style.width = total + '%';
+  bar.textContent = total + '%';
+
+  let msg = '';
+  if (total >= 90) msg = "🌟 أداء متميز جدًا، فرص الترقية عالية.";
+  else if (total >= 75) msg = "✅ أداء جيد جدًا، وهناك مجال للتحسين.";
+  else if (total >= 60) msg = "⚠️ الأداء مقبول، يفضل تحسين التدريب أو المعرفة.";
+  else msg = "❌ الأداء أقل من المطلوب للترقية.";
+
+  document.getElementById("interpretation").textContent = msg;
+}
 </script>
 
 </body>
