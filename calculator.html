@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -6,6 +5,7 @@
   <title>حاسبة معايير الترقية | Amani HR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body { font-family: 'Tajawal', sans-serif; background-color: #f8f9fa; padding: 20px; }
     .section-box { background-color: white; border-radius: 10px; padding: 20px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
@@ -36,7 +36,6 @@
   <!-- المعيار الثاني -->
   <div class="section-box">
     <h2>المعيار الثاني: برامج التدريب والتطوير (40%)</h2>
-
     <label for="certifiedPrograms">1. برامج اعتماد منتهية باختبار اجتياز:</label>
     <select id="certifiedPrograms" class="form-select">
       <option value="0">لا يوجد</option>
@@ -44,7 +43,6 @@
       <option value="60">حكومي (60%)</option>
       <option value="40">خاص (40%)</option>
     </select>
-
     <label for="trainingPrograms">2. برامج تدريب بدون اختبار اجتياز:</label>
     <select id="trainingPrograms" class="form-select">
       <option value="0">لا يوجد</option>
@@ -54,18 +52,15 @@
       <option value="40">برنامجين دوليين (40%)</option>
       <option value="35">برنامج حكومي + دولي (35%)</option>
     </select>
-
     <label for="selfLearning">3. برامج التعليم الذاتي (بحد أقصى 20):</label>
     <input type="number" id="selfLearning" class="form-control" value="0" min="0" max="20">
     <div class="form-text">كل برنامج = 0.05% من وزن المعيار</div>
-
     <label for="onJobTraining">4. التدريب على رأس العمل:</label>
     <select id="onJobTraining" class="form-select">
       <option value="0">لا يوجد</option>
       <option value="50">بتقدير ممتاز (50%)</option>
       <option value="25">بتقدير جيد جدًا (25%)</option>
     </select>
-
     <div class="result">النتيجة: <span id="developmentResult">0%</span></div>
   </div>
 
@@ -85,6 +80,7 @@
 
   <div class="text-center mt-4">
     <button class="btn btn-primary" onclick="calculate()">احسب النتيجة النهائية</button>
+    <button id="downloadBtn" class="btn btn-outline-secondary ms-3">📄 تحميل النتيجة PDF</button>
   </div>
 </div>
 
@@ -97,10 +93,7 @@
     const onJob = parseFloat(document.getElementById("onJobTraining").value);
     const exam = parseFloat(document.getElementById("examScore").value);
 
-    const weight1 = 30;
-    const weight2 = 40;
-    const weight3 = 30;
-
+    const weight1 = 30, weight2 = 40, weight3 = 30;
     const score1 = (performance / 100) * weight1;
     const totalDev = Math.min(certified + training + selfLearn + onJob, 100);
     const score2 = (totalDev / 100) * weight2;
@@ -112,18 +105,45 @@
     document.getElementById("totalScore").textContent = (score1 + score2 + score3).toFixed(2) + "%";
   }
 
-  // تحديث تلقائي عند التغيير أو الإدخال
-  const inputs = [
-    "performanceRating", "certifiedPrograms", "trainingPrograms",
-    "selfLearning", "onJobTraining", "examScore"
-  ];
-  inputs.forEach(id => {
+  // تحديث تلقائي
+  ["performanceRating", "certifiedPrograms", "trainingPrograms", "selfLearning", "onJobTraining", "examScore"].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener("change", calculate);
     el.addEventListener("input", calculate);
   });
-</script>
 
+  // زر تحميل PDF
+  document.getElementById("downloadBtn").addEventListener("click", async () => {
+    const {{ jsPDF }} = window.jspdf;
+    const doc = new jsPDF();
+
+    const performance = document.getElementById("performanceResult").textContent.trim();
+    const development = document.getElementById("developmentResult").textContent.trim();
+    const exam = document.getElementById("examResult").textContent.trim();
+    const total = document.getElementById("totalScore").textContent.trim();
+
+    let y = 20;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("تقرير حاسبة الترقية", 105, y, {{ align: "center" }});
+    y += 10;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`التاريخ: ${new Date().toLocaleString("ar-EG")}`, 20, y, {{ align: "right" }}); y += 10;
+    doc.text(`تقييم الأداء الوظيفي: ${performance}`, 20, y, {{ align: "right" }}); y += 8;
+    doc.text(`برامج التدريب والتطوير: ${development}`, 20, y, {{ align: "right" }}); y += 8;
+    doc.text(`اختبار القدرة المعرفية: ${exam}`, 20, y, {{ align: "right" }}); y += 10;
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(33, 94, 148);
+    doc.text(`النتيجة النهائية: ${total}`, 20, y, {{ align: "right" }}); y += 15;
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+    doc.text("تم توليد هذا التقرير من حاسبة Amani HR", 105, y, {{ align: "center" }});
+    doc.save("تقرير-الترقية.pdf");
+  });
+</script>
 
 </body>
 </html>
