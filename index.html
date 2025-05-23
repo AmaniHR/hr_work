@@ -18,9 +18,13 @@
     .post { background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .post h3 { margin-top: 0; color: #1a237e; }
     .post p { color: #555; font-size: 15px; }
+    #daily-quote { background-color: #fff; border: 2px solid #0d47a1; border-radius: 12px; padding: 20px; max-width: 300px; margin: 20px; float: right; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    #daily-quote h3 { color: #0d47a1; margin-top: 0; }
+    #daily-quote p { font-size: 16px; color: #444; margin: 0; }
     footer { text-align: center; padding: 20px; font-size: 14px; color: #aaa; }
     @media (max-width: 768px) {
       .posts { grid-template-columns: 1fr; }
+      #daily-quote { float: none; margin: 10px auto; }
     }
   </style>
 </head>
@@ -36,6 +40,11 @@
   <a href="calculator.html">حاسبة الترقية</a>
   <a href="contact.html">تواصل معنا</a>
 </nav>
+
+<div id="daily-quote">
+  <h3>🌞 إشراقة اليوم</h3>
+  <p id="quoteText"></p>
+</div>
 
 <div class="container">
   <div class="intro">
@@ -66,6 +75,22 @@
 <footer>
   © 2025 Amani HR Blog - جميع الحقوق محفوظة
 </footer>
+
+<script>
+  const quotes = [
+    "كل يوم فرصة جديدة لتكون أفضل.",
+    "الإبداع لا حدود له، فقط آمن بنفسك.",
+    "ابدأ صغيرًا، فكر كبيرًا، انطلق الآن.",
+    "النجاح لا يحتاج إذنًا، فقط قرارًا.",
+    "افعل شيئًا اليوم يفتخر به الغد.",
+    "الثقة بالنفس هي أول خطوة نحو النجاح.",
+    "أنت المسؤول عن طاقتك وإنتاجك."
+  ];
+
+  const today = new Date();
+  const index = today.getDate() % quotes.length;
+  document.getElementById("quoteText").textContent = quotes[index];
+</script>
 
 </body>
 </html>
