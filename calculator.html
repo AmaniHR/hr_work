@@ -3,79 +3,180 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>حاسبة معايير الترقية | Amani HR</title>
+  <title>حاسبة معايير الترقية</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    body { background-color: #f8f9fa; font-family: 'Tajawal', sans-serif; }
-    .container { max-width: 800px; margin-top: 50px; }
-    .result-box { background: #fff; border-radius: 10px; padding: 20px; margin-top: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .progress { height: 20px; }
+    body { font-family: 'Tajawal', sans-serif; background-color: #f8f9fa; padding: 20px; line-height: 1.6; }
+    .result-box { margin: 10px 0; padding: 10px; background: #fff; border-radius: 8px; }
+    .progress-bar { height: 5px; border-radius: 4px; margin-top: 5px; }
+    .section { margin-bottom: 30px; background: #eef2ff; padding: 15px; border-radius: 8px; }
+    .section h3 { margin-bottom: 10px; color: #1a237e; }
+    .section p.desc { margin: 5px 0 10px; font-size: 14px; color: #555; }
+    .buttons { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    @media (max-width: 600px) {
+      select, input, button { width: 100%; font-size: 16px; }
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1 class="text-center text-primary mb-4">📈 حاسبة معايير الترقية</h1>
+<div style="text-align:center;">
+  <img src="https://i.imgur.com/Ou7CkUT.png" style="width:100px;" alt="Logo">
+  <h1>حاسبة معايير الترقية الوظيفية</h1>
+</div>
 
-  <form id="promotionForm">
-    <div class="mb-3">
-      <label class="form-label">تقييم الأداء الوظيفي (ممتاز = 100، جيد جداً = 75، جيد = 60)</label>
-      <select class="form-select" id="performanceRating">
-        <option value="100">ممتاز</option>
-        <option value="75">جيد جداً</option>
-        <option value="60">جيد</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">برامج التدريب والتطوير (من 0 إلى 100)</label>
-      <input type="number" class="form-control" id="trainingScore" max="100" min="0" value="0">
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">درجة اختبار القدرة المعرفية (من 0 إلى 100)</label>
-      <input type="number" class="form-control" id="examScore" max="100" min="0" value="50">
-    </div>
-
-    <button type="button" class="btn btn-primary w-100" onclick="calculate()">حساب النتيجة</button>
-  </form>
-
-  <div class="result-box mt-4">
-    <h4 class="text-center">🔚 النتيجة النهائية:</h4>
-    <div class="progress mb-2">
-      <div id="totalBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;">0%</div>
-    </div>
-    <p id="interpretation" class="text-center mt-3 text-muted">لم يتم الحساب بعد.</p>
+<!-- المعيار الأول -->
+<div class="section">
+  <h3>📊 المعيار الأول: تقييم الأداء الوظيفي (30%)</h3>
+  <select id="performanceRating">
+    <option value="100">ممتاز (100%)</option>
+    <option value="75">جيد جداً (75%)</option>
+    <option value="60">جيد (60%)</option>
+  </select>
+  <div class="result-box"><span>النتيجة:</span> <span id="performanceScore">0%</span>
+    <div class="progress-bar" id="performanceBar" style="background:blue; width:0%;"></div>
   </div>
 </div>
 
+<!-- المعيار الثاني -->
+<div class="section">
+  <h3>🎓 المعيار الثاني: برامج التدريب والتطوير (40%)</h3>
+
+  <p><strong>1- برامج اعتماد منتهية باختبار اجتياز:</strong></p>
+  <p class="desc">بحد أقصى برنامج واحد في السنة لكل مرشح. النسبة: دولي 80%، حكومي 60%، خاص 40%</p>
+  <select id="certProgram">
+    <option value="0">لا يوجد</option>
+    <option value="80">برنامج دولي (80%)</option>
+    <option value="60">برنامج حكومي (60%)</option>
+    <option value="40">برنامج خاص (40%)</option>
+  </select>
+
+  <p><strong>2- برامج تدريب لا تتضمن اختبار اجتياز:</strong></p>
+  <p class="desc">بحد أقصى برنامجين في السنة. النسبة: دولي 40%، حكومي 30%</p>
+  <select id="trainingPrograms">
+    <option value="0">لا يوجد</option>
+    <option value="30">برنامج واحد حكومي (30%)</option>
+    <option value="40">برنامج واحد دولي (40%)</option>
+    <option value="60">برنامجين حكومية (30% + 30%)</option>
+    <option value="70">برنامج حكومي + دولي (30% + 40%)</option>
+    <option value="80">برنامجين دولية (40% + 40%)</option>
+  </select>
+
+  <p><strong>3- برامج التعليم الذاتي:</strong></p>
+  <p class="desc">بحد أقصى 20 برنامج. كل برنامج = 0.05% من وزن المعيار (الإجمالي الأقصى = 1%)</p>
+  <input type="number" id="selfLearningCount" value="0" min="0" max="20" placeholder="عدد برامج التعليم الذاتي">
+
+  <p><strong>4- برنامج التدريب على رأس العمل (ممتاز):</strong></p>
+  <p class="desc">بحد أقصى برنامج واحد. النسبة = 50%</p>
+  <select id="onJobTraining">
+    <option value="0">لا يوجد</option>
+    <option value="50">بتقدير ممتاز (50%)</option>
+    <option value="25">بتقدير جيد جداً (25%)</option>
+  </select>
+
+  <div class="result-box"><span>النتيجة:</span> <span id="developmentScore">0%</span>
+    <div class="progress-bar" id="developmentBar" style="background:green; width:0%;"></div>
+  </div>
+</div>
+
+<!-- المعيار الثالث -->
+<div class="section">
+  <h3>🧠 المعيار الثالث: اختبار القدرة المعرفية (30%)</h3>
+  <input type="number" id="examScore" value="50" min="0" max="100" placeholder="درجة الاختبار من 100">
+  <div class="result-box"><span>النتيجة:</span> <span id="examResultScore">0%</span>
+    <div class="progress-bar" id="examBar" style="background:orange; width:0%;"></div>
+  </div>
+</div>
+
+<!-- النتيجة النهائية -->
+<div class="section" id="reportBox">
+  <h3>🔚 النتيجة النهائية:</h3>
+  <p>الأداء: <span id="finalPerformanceScore">0%</span></p>
+  <p>التدريب: <span id="finalDevelopmentScore">0%</span></p>
+  <p>القدرة المعرفية: <span id="finalExamScore">0%</span></p>
+  <p><strong>المجموع: <span id="totalScore">0%</span></strong></p>
+  <div class="progress-bar" id="totalBar" style="height: 10px; width:0%; background:purple;"></div>
+  <p id="interpretation" style="margin-top:10px; font-weight:bold; color:#333;"></p>
+</div>
+
+<!-- الأزرار -->
+<div class="buttons">
+  <button onclick="calculateTotal()">🧮 حساب النتيجة</button>
+  <button onclick="resetForm()">🔄 إعادة تعيين</button>
+  <button onclick="downloadPDF()">📥 تحميل PDF</button>
+</div>
+
+<footer style="text-align:center; margin-top:40px; font-size:13px; color:#999;">
+  © 2023 حاسبة معايير الترقية - جميع الحقوق محفوظة
+</footer>
+
 <script>
-function calculate() {
-  const performance = parseFloat(document.getElementById("performanceRating").value);
-  const training = parseFloat(document.getElementById("trainingScore").value);
-  const exam = parseFloat(document.getElementById("examScore").value);
-
-  let score1 = (performance / 100) * 30;
-  let score2 = (Math.min(training, 100) / 100) * 40;
-  let score3 = (exam >= 50) ? (exam / 100) * 30 : 0;
-
-  let total = score1 + score2 + score3;
-  total = total.toFixed(2);
-
-  const bar = document.getElementById("totalBar");
-  bar.style.width = total + '%';
-  bar.textContent = total + '%';
-
-  let message = '';
-  if (total >= 90) message = '🌟 أداء متميز جدًا، فرص الترقية عالية.';
-  else if (total >= 75) message = '✅ أداء جيد جدًا، لكن هناك مجال للتحسين.';
-  else if (total >= 60) message = '⚠️ قريب من الحد الأدنى، يفضل تطوير بعض الجوانب.';
-  else message = '❌ تحتاج إلى تحسين كبير لتحقيق الترقية.';
-
-  document.getElementById("interpretation").textContent = message;
+function calculatePerformance() {
+  const rating = parseFloat(document.getElementById('performanceRating').value);
+  const score = (rating / 100) * 30;
+  document.getElementById('performanceScore').textContent = score.toFixed(2) + '%';
+  document.getElementById('performanceBar').style.width = rating + '%';
+  document.getElementById('finalPerformanceScore').textContent = score.toFixed(2) + '%';
+  return score;
 }
+function calculateDevelopment() {
+  let val = 0;
+  val += parseFloat(document.getElementById('certProgram').value);
+  val += parseFloat(document.getElementById('trainingPrograms').value);
+  val += Math.min(20, parseFloat(document.getElementById('selfLearningCount').value)) * 0.05;
+  val += parseFloat(document.getElementById('onJobTraining').value);
+  val = Math.min(val, 100);
+  const score = (val / 100) * 40;
+  document.getElementById('developmentScore').textContent = score.toFixed(2) + '%';
+  document.getElementById('developmentBar').style.width = val + '%';
+  document.getElementById('finalDevelopmentScore').textContent = score.toFixed(2) + '%';
+  return score;
+}
+function calculateExam() {
+  const score = parseFloat(document.getElementById('examScore').value);
+  let final = score >= 50 ? (score / 100) * 30 : 0;
+  document.getElementById('examResultScore').textContent = final.toFixed(2) + '%';
+  document.getElementById('examBar').style.width = (score >= 50 ? score : 0) + '%';
+  document.getElementById('finalExamScore').textContent = final.toFixed(2) + '%';
+  return final;
+}
+function calculateTotal() {
+  const perf = calculatePerformance();
+  const dev = calculateDevelopment();
+  const exam = calculateExam();
+  const total = perf + dev + exam;
+  document.getElementById('totalScore').textContent = total.toFixed(2) + '%';
+  const bar = document.getElementById('totalBar');
+  bar.style.width = total + '%';
+  bar.style.background = total >= 85 ? 'green' : total >= 60 ? 'orange' : 'red';
+  let interpretation = '';
+  if (total >= 90) {
+    interpretation = '🌟 أداء متميز جدًا، فرص الترقية عالية.';
+  } else if (total >= 75) {
+    interpretation = '✅ أداء جيد جدًا، لكن هناك مجال للتحسين.';
+  } else if (total >= 60) {
+    interpretation = '⚠️ قريب من الحد الأدنى، يفضل تطوير بعض الجوانب.';
+  } else {
+    interpretation = '❌ تحتاج إلى تحسين كبير في المعايير لتحقيق الترقية.';
+  }
+  document.getElementById('interpretation').textContent = interpretation;
+}
+function resetForm() {
+  document.getElementById('performanceRating').value = '100';
+  document.getElementById('certProgram').value = '0';
+  document.getElementById('trainingPrograms').value = '0';
+  document.getElementById('selfLearningCount').value = '0';
+  document.getElementById('onJobTraining').value = '0';
+  document.getElementById('examScore').value = '50';
+  calculateTotal();
+}
+function downloadPDF() {
+  const element = document.getElementById('reportBox');
+  html2pdf().from(element).save('تقرير_الترقية.pdf');
+}
+calculateTotal();
 </script>
-
+aesthetic
 </body>
 </html>
