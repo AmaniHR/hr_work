@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>تقرير حاسبة معايير الترقية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f9f9f9;
+      padding: 30px;
+    }
+    .report-box {
+      background: white;
+      max-width: 700px;
+      margin: auto;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .section {
+      background: #f4f6f8;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #0d47a1;
+      text-align: center;
+    }
+    h2 {
+      font-size: 18px;
+      color: #1a237e;
+      margin-bottom: 8px;
+    }
+    .value {
+      font-size: 20px;
+      font-weight: bold;
+      color: #444;
+    }
+    .total {
+      background: linear-gradient(to right, #4CAF50, #2196F3);
+      color: white;
+      font-size: 22px;
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: #999;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="report-box">
+    <h1>📋 تقرير حاسبة معايير الترقية</h1>
+
+    <div class="section">
+      <h2>تقييم الأداء الوظيفي:</h2>
+      <div class="value" id="perfScore">غير متوفر</div>
+    </div>
+
+    <div class="section">
+      <h2>برامج التدريب والتطوير:</h2>
+      <div class="value" id="devScore">غير متوفر</div>
+    </div>
+
+    <div class="section">
+      <h2>اختبار القدرة المعرفية:</h2>
+      <div class="value" id="examScore">غير متوفر</div>
+    </div>
+
+    <div class="total" id="totalScore">النتيجة النهائية: غير متوفرة</div>
+
+    <div class="footer">
+      هذا التقرير تم توليده تلقائيًا من حاسبة Amani HR<br>
+      جميع الحقوق محفوظة © 2025
+    </div>
+  </div>
+
+  <script>
+    const query = new URLSearchParams(window.location.search);
+
+    function format(value) {
+      return value ? `${parseFloat(value).toFixed(2)}%` : "غير متوفر";
+    }
+
+    const performance = query.get("performance");
+    const development = query.get("development");
+    const exam = query.get("exam");
+    const total = query.get("total");
+
+    document.getElementById("perfScore").textContent = format(performance);
+    document.getElementById("devScore").textContent = format(development);
+    document.getElementById("examScore").textContent = format(exam);
+    document.getElementById("totalScore").textContent = total ? `النتيجة النهائية: ${parseFloat(total).toFixed(2)}%` : "النتيجة النهائية: غير متوفرة";
+  </script>
+
+</body>
+</html>
