@@ -1,323 +1,236 @@
-    body {
-        font-family: 'Tajawal', sans-serif;
-        background-color: #f8f9fa;
-    }
-    
-    .result-box {
-        transition: all 0.3s ease;
-    }
-    
-    .progress-bar {
-        transition: width 1s ease-in-out;
-    }
-    
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-</style>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- المعيار الأول: تقييم الأداء الوظيفي -->
-            <div class="bg-indigo-50 rounded-lg p-5 shadow-md">
-                <h2 class="text-xl font-bold text-indigo-800 mb-4">المعيار الأول: تقييم الأداء الوظيفي</h2>
-                <p class="text-sm text-gray-600 mb-4">وزن المعيار: 30%</p>
-                
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">اختر تقدير الأداء:</label>
-                    <select id="performanceRating" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="100">ممتاز (100%)</option>
-                        <option value="75">جيد جداً (75%)</option>
-                        <option value="60">جيد (60%)</option>
-                    </select>
-                </div>
-                
-                <div class="mt-4 p-3 bg-white rounded-lg">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium text-indigo-700">النتيجة:</span>
-                        <span id="performanceScore" class="text-sm font-medium text-indigo-700">30%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div id="performanceBar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 100%"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- المعيار الثاني: برامج التطوير والتدريب -->
-            <div class="bg-indigo-50 rounded-lg p-5 shadow-md">
-                <h2 class="text-xl font-bold text-indigo-800 mb-4">المعيار الثاني: برامج التطوير والتدريب</h2>
-                <p class="text-sm text-gray-600 mb-4">وزن المعيار: 40%</p>
-                
-                <div class="space-y-4">
-                    <!-- برامج اعتماد منتهية باختبار اجتياز -->
-                    <div class="border-b pb-3">
-                        <label class="block text-gray-700 mb-2 text-sm font-medium">1. برامج اعتماد منتهية باختبار اجتياز:</label>
-                        <select id="certProgram" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                            <option value="0">لا يوجد</option>
-                            <option value="80">دولي (80%)</option>
-                            <option value="60">حكومي (60%)</option>
-                            <option value="40">خاص (40%)</option>
-                        </select>
-                        <p class="text-xs text-gray-500 mt-1">بحد أقصى برنامج واحد في السنة</p>
-                    </div>
-                    
-                    <!-- برامج تدريب لا تتضمن اختبار اجتياز -->
-                    <div class="border-b pb-3">
-                        <label class="block text-gray-700 mb-2 text-sm font-medium">2. برامج تدريب بدون اختبار اجتياز:</label>
-                        <select id="trainingPrograms" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                            <option value="0">لا يوجد</option>
-                            <option value="15">برنامج واحد حكومي (15%)</option>
-                            <option value="30">برنامجين حكوميين (30%)</option>
-                        </select>
-                        <p class="text-xs text-gray-500 mt-1">بحد أقصى برنامجين في السنة (المجموع 30%)</p>
-                    </div>
-                    
-                    <!-- برامج التعليم الذاتي -->
-                    <div class="border-b pb-3">
-                        <label class="block text-gray-700 mb-2 text-sm font-medium">3. برامج التعليم الذاتي:</label>
-                        <input type="number" id="selfLearningCount" min="0" max="20" value="0" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                        <p class="text-xs text-gray-500 mt-1">20 برنامج = 1% من وزن المعيار (كل برنامج = 0.05%)</p>
-                    </div>
-                    
-                    <!-- برنامج التدريب على رأس العمل والتوجيه -->
-                    <div>
-                        <label class="block text-gray-700 mb-2 text-sm font-medium">4. برنامج التدريب على رأس العمل:</label>
-                        <select id="onJobTraining" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                            <option value="0">لا يوجد</option>
-                            <option value="50">بتقدير ممتاز (50%)</option>
-                            <option value="25">بتقدير جيد جداً (25%)</option>
-                        </select>
-                        <p class="text-xs text-gray-500 mt-1">بحد أقصى برنامج واحد</p>
-                    </div>
-                </div>
-                
-                <div class="mt-4 p-3 bg-white rounded-lg">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium text-indigo-700">النتيجة:</span>
-                        <span id="developmentScore" class="text-sm font-medium text-indigo-700">0%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div id="developmentBar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- المعيار الثالث: اختبار القدرة المعرفية -->
-            <div class="bg-indigo-50 rounded-lg p-5 shadow-md">
-                <h2 class="text-xl font-bold text-indigo-800 mb-4">المعيار الثالث: اختبار القدرة المعرفية</h2>
-                <p class="text-sm text-gray-600 mb-4">وزن المعيار: 30%</p>
-                
-                <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">درجة الاختبار (0-100):</label>
-                    <input type="number" id="examScore" min="0" max="100" value="50" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <p class="text-xs text-gray-500 mt-1">أقل من 50 = صفر من وزن المعيار</p>
-                </div>
-                
-                <div class="mt-4 p-3 bg-white rounded-lg">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-sm font-medium text-indigo-700">النتيجة:</span>
-                        <span id="examResultScore" class="text-sm font-medium text-indigo-700">15%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5">
-                        <div id="examBar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 50%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- النتيجة النهائية -->
-        <div class="mt-8">
-            <div class="bg-indigo-100 rounded-lg p-6 shadow-md">
-                <h2 class="text-2xl font-bold text-center text-indigo-800 mb-4">النتيجة النهائية</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div class="bg-white rounded-lg p-4 shadow-sm">
-                        <h3 class="text-lg font-medium text-indigo-700 mb-2">تقييم الأداء الوظيفي</h3>
-                        <p id="finalPerformanceScore" class="text-2xl font-bold text-indigo-900">30%</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg p-4 shadow-sm">
-                        <h3 class="text-lg font-medium text-indigo-700 mb-2">برامج التطوير والتدريب</h3>
-                        <p id="finalDevelopmentScore" class="text-2xl font-bold text-indigo-900">0%</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-lg p-4 shadow-sm">
-                        <h3 class="text-lg font-medium text-indigo-700 mb-2">اختبار القدرة المعرفية</h3>
-                        <p id="finalExamScore" class="text-2xl font-bold text-indigo-900">15%</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white rounded-lg p-5 shadow-md">
-                    <div class="flex justify-between mb-2">
-                        <span class="text-xl font-bold text-indigo-800">المجموع النهائي:</span>
-                        <span id="totalScore" class="text-xl font-bold text-indigo-800">45%</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-4">
-                        <div id="totalBar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-4 rounded-full" style="width: 45%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="mt-6 text-center">
-            <button id="resetBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out mr-4">
-                إعادة تعيين
-            </button>
-            <button id="calculateBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-md shadow-md transition duration-300 ease-in-out">
-                حساب النتيجة
-            </button>
-        </div>
-    </div>
-    
-    <div class="text-center text-gray-600 text-sm">
-        <p>© 2023 حاسبة معايير الترقية - جميع الحقوق محفوظة</p>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>حاسبة معايير الترقية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .result-box {
+            transition: all 0.3s ease;
+        }
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const performanceRating = document.getElementById('performanceRating');
+            const performanceScore = document.getElementById('performanceScore');
+            const performanceBar = document.getElementById('performanceBar');
+            const finalPerformanceScore = document.getElementById('finalPerformanceScore');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // عناصر المعيار الأول
-        const performanceRating = document.getElementById('performanceRating');
-        const performanceScore = document.getElementById('performanceScore');
-        const performanceBar = document.getElementById('performanceBar');
-        const finalPerformanceScore = document.getElementById('finalPerformanceScore');
-        
-        // عناصر المعيار الثاني
-        const certProgram = document.getElementById('certProgram');
-        const trainingPrograms = document.getElementById('trainingPrograms');
-        const selfLearningCount = document.getElementById('selfLearningCount');
-        const onJobTraining = document.getElementById('onJobTraining');
-        const developmentScore = document.getElementById('developmentScore');
-        const developmentBar = document.getElementById('developmentBar');
-        const finalDevelopmentScore = document.getElementById('finalDevelopmentScore');
-        
-        // عناصر المعيار الثالث
-        const examScore = document.getElementById('examScore');
-        const examResultScore = document.getElementById('examResultScore');
-        const examBar = document.getElementById('examBar');
-        const finalExamScore = document.getElementById('finalExamScore');
-        
-        // عناصر النتيجة النهائية
-        const totalScore = document.getElementById('totalScore');
-        const totalBar = document.getElementById('totalBar');
-        
-        // أزرار التحكم
-        const calculateBtn = document.getElementById('calculateBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        
-        // حساب المعيار الأول: تقييم الأداء الوظيفي
-        function calculatePerformance() {
-            const rating = parseFloat(performanceRating.value);
-            const weight = 30;
-            const score = (rating / 100) * weight;
-            
-            performanceScore.textContent = score.toFixed(2) + '%';
-            performanceBar.style.width = rating + '%';
-            finalPerformanceScore.textContent = score.toFixed(2) + '%';
-            
-            return score;
-        }
-        
-        // حساب المعيار الثاني: برامج التطوير والتدريب
-        function calculateDevelopment() {
-            const weight = 40;
-            let totalPercentage = 0;
-            
-            // برامج اعتماد منتهية باختبار اجتياز
-            totalPercentage += parseFloat(certProgram.value);
-            
-            // برامج تدريب لا تتضمن اختبار اجتياز
-            totalPercentage += parseFloat(trainingPrograms.value);
-            
-            // برامج التعليم الذاتي (20 برنامج = 1%)
-            const selfLearning = Math.min(parseInt(selfLearningCount.value), 20);
-            totalPercentage += selfLearning * 0.05; // كل برنامج = 0.05%
-            
-            // برنامج التدريب على رأس العمل والتوجيه
-            totalPercentage += parseFloat(onJobTraining.value);
-            
-            // تحديد النسبة المئوية (بحد أقصى 100%)
-            totalPercentage = Math.min(totalPercentage, 100);
-            
-            // حساب النتيجة النهائية للمعيار
-            const score = (totalPercentage / 100) * weight;
-            
-            developmentScore.textContent = score.toFixed(2) + '%';
-            developmentBar.style.width = totalPercentage + '%';
-            finalDevelopmentScore.textContent = score.toFixed(2) + '%';
-            
-            return score;
-        }
-        
-        // حساب المعيار الثالث: اختبار القدرة المعرفية
-        function calculateExam() {
-            const score = parseFloat(examScore.value);
-            const weight = 30;
-            let result = 0;
-            
-            if (score >= 50) {
-                result = (score / 100) * weight;
-            } else {
-                result = 0;
+            const certProgram = document.getElementById('certProgram');
+            const trainingPrograms = document.getElementById('trainingPrograms');
+            const selfLearningCount = document.getElementById('selfLearningCount');
+            const onJobTraining = document.getElementById('onJobTraining');
+            const developmentScore = document.getElementById('developmentScore');
+            const developmentBar = document.getElementById('developmentBar');
+            const finalDevelopmentScore = document.getElementById('finalDevelopmentScore');
+
+            const examScore = document.getElementById('examScore');
+            const examResultScore = document.getElementById('examResultScore');
+            const examBar = document.getElementById('examBar');
+            const finalExamScore = document.getElementById('finalExamScore');
+
+            const totalScore = document.getElementById('totalScore');
+            const totalBar = document.getElementById('totalBar');
+
+            const calculateBtn = document.getElementById('calculateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+
+            function calculatePerformance() {
+                const rating = parseFloat(performanceRating.value);
+                const weight = 30;
+                const score = (rating / 100) * weight;
+
+                performanceScore.textContent = score.toFixed(2) + '%';
+                performanceBar.style.width = rating + '%';
+                finalPerformanceScore.textContent = score.toFixed(2) + '%';
+
+                return score;
             }
-            
-            const percentage = score >= 50 ? score : 0;
-            
-            examResultScore.textContent = result.toFixed(2) + '%';
-            examBar.style.width = percentage + '%';
-            finalExamScore.textContent = result.toFixed(2) + '%';
-            
-            return result;
-        }
-        
-        // حساب النتيجة النهائية
-        function calculateTotal() {
-            const performance = calculatePerformance();
-            const development = calculateDevelopment();
-            const exam = calculateExam();
-            
-            const total = performance + development + exam;
-            
-            totalScore.textContent = total.toFixed(2) + '%';
-            totalBar.style.width = total + '%';
-            
-            return total;
-        }
-        
-        // تحديث النتائج عند تغيير أي قيمة
-        function updateResults() {
-            calculateTotal();
-        }
-        
-        // إعادة تعيين جميع القيم
-        function resetForm() {
-            performanceRating.value = '100';
-            certProgram.value = '0';
-            trainingPrograms.value = '0';
-            selfLearningCount.value = '0';
-            onJobTraining.value = '0';
-            examScore.value = '50';
-            
+
+            function calculateDevelopment() {
+                const weight = 40;
+                let totalPercentage = 0;
+
+                totalPercentage += parseFloat(certProgram.value);
+                totalPercentage += parseFloat(trainingPrograms.value);
+
+                const selfLearning = Math.min(parseInt(selfLearningCount.value), 20);
+                totalPercentage += selfLearning * 0.05;
+
+                totalPercentage += parseFloat(onJobTraining.value);
+
+                totalPercentage = Math.min(totalPercentage, 100);
+
+                const score = (totalPercentage / 100) * weight;
+
+                developmentScore.textContent = score.toFixed(2) + '%';
+                developmentBar.style.width = totalPercentage + '%';
+                finalDevelopmentScore.textContent = score.toFixed(2) + '%';
+
+                return score;
+            }
+
+            function calculateExam() {
+                const score = parseFloat(examScore.value);
+                const weight = 30;
+                let result = 0;
+
+                if (score >= 50) {
+                    result = (score / 100) * weight;
+                }
+
+                const percentage = score >= 50 ? score : 0;
+
+                examResultScore.textContent = result.toFixed(2) + '%';
+                examBar.style.width = percentage + '%';
+                finalExamScore.textContent = result.toFixed(2) + '%';
+
+                return result;
+            }
+
+            function calculateTotal() {
+                const performance = calculatePerformance();
+                const development = calculateDevelopment();
+                const exam = calculateExam();
+
+                const total = performance + development + exam;
+
+                totalScore.textContent = total.toFixed(2) + '%';
+                totalBar.style.width = total + '%';
+
+                return total;
+            }
+
+            function updateResults() {
+                calculateTotal();
+            }
+
+            function resetForm() {
+                performanceRating.value = '100';
+                certProgram.value = '0';
+                trainingPrograms.value = '0';
+                selfLearningCount.value = '0';
+                onJobTraining.value = '0';
+                examScore.value = '50';
+                updateResults();
+            }
+
+            calculateBtn.addEventListener('click', updateResults);
+            resetBtn.addEventListener('click', resetForm);
+
+            const allInputs = [
+                performanceRating, certProgram, trainingPrograms,
+                selfLearningCount, onJobTraining, examScore
+            ];
+
+            allInputs.forEach(input => {
+                input.addEventListener('change', updateResults);
+                input.addEventListener('input', updateResults);
+            });
+
             updateResults();
-        }
-        
-        // إضافة مستمعي الأحداث
-        calculateBtn.addEventListener('click', updateResults);
-        resetBtn.addEventListener('click', resetForm);
-        
-        // تحديث النتائج الأولية
-        updateResults();
-        
-        // إضافة مستمعي الأحداث للتحديث المباشر (اختياري)
-        const allInputs = [
-            performanceRating, certProgram, trainingPrograms,
-            selfLearningCount, onJobTraining, examScore
-        ];
-        
-        allInputs.forEach(input => {
-            input.addEventListener('change', updateResults);
-            input.addEventListener('input', updateResults);
         });
-    });
-</script>
+    </script>
+</head>
+<body>
+
+    <h1 style="color: #1a73e8;">حاسبة معايير الترقية الوظيفية</h1>
+    <p>يرجى إدخال البيانات لحساب نقاط الترقية حسب المعايير.</p>
+
+    <!-- المعيار الأول -->
+    <div>
+        <h2>المعيار الأول: تقييم الأداء الوظيفي (30%)</h2>
+        <select id="performanceRating">
+            <option value="100">ممتاز (100%)</option>
+            <option value="75">جيد جداً (75%)</option>
+            <option value="60">جيد (60%)</option>
+        </select>
+        <div class="result-box">
+            <span>النتيجة:</span> <span id="performanceScore"></span>
+            <div class="progress-bar" id="performanceBar" style="height: 5px; background: blue;"></div>
+        </div>
+    </div>
+
+    <!-- المعيار الثاني -->
+    <div>
+        <h2>المعيار الثاني: برامج التطوير والتدريب (40%)</h2>
+        <label>برامج اعتماد:</label>
+        <select id="certProgram">
+            <option value="0">لا يوجد</option>
+            <option value="80">دولي (80%)</option>
+            <option value="60">حكومي (60%)</option>
+            <option value="40">خاص (40%)</option>
+        </select>
+
+        <label>برامج تدريب بدون اختبار:</label>
+        <select id="trainingPrograms">
+            <option value="0">لا يوجد</option>
+            <option value="15">برنامج واحد (15%)</option>
+            <option value="30">برنامجين (30%)</option>
+        </select>
+
+        <label>برامج التعليم الذاتي (0.05 لكل برنامج):</label>
+        <input type="number" id="selfLearningCount" value="0" min="0" max="20">
+
+        <label>برنامج التدريب على رأس العمل:</label>
+        <select id="onJobTraining">
+            <option value="0">لا يوجد</option>
+            <option value="25">جيد جداً (25%)</option>
+            <option value="50">ممتاز (50%)</option>
+        </select>
+
+        <div class="result-box">
+            <span>النتيجة:</span> <span id="developmentScore"></span>
+            <div class="progress-bar" id="developmentBar" style="height: 5px; background: green;"></div>
+        </div>
+    </div>
+
+    <!-- المعيار الثالث -->
+    <div>
+        <h2>المعيار الثالث: اختبار القدرة المعرفية (30%)</h2>
+        <label>درجة الاختبار:</label>
+        <input type="number" id="examScore" value="50" min="0" max="100">
+
+        <div class="result-box">
+            <span>النتيجة:</span> <span id="examResultScore"></span>
+            <div class="progress-bar" id="examBar" style="height: 5px; background: orange;"></div>
+        </div>
+    </div>
+
+    <!-- النتيجة النهائية -->
+    <div>
+        <h2>النتيجة النهائية:</h2>
+        <div class="result-box">
+            <p>الأداء: <span id="finalPerformanceScore"></span></p>
+            <p>التطوير: <span id="finalDevelopmentScore"></span></p>
+            <p>القدرة: <span id="finalExamScore"></span></p>
+            <strong>المجموع: <span id="totalScore"></span></strong>
+            <div class="progress-bar" id="totalBar" style="height: 10px; background: purple;"></div>
+        </div>
+    </div>
+
+    <div>
+        <button id="resetBtn">إعادة تعيين</button>
+        <button id="calculateBtn">حساب النتيجة</button>
+    </div>
+
+    <footer style="margin-top: 40px; font-size: 14px; color: #888; text-align: center;">
+        © 2023 حاسبة معايير الترقية - جميع الحقوق محفوظة
+    </footer>
+
+</body>
+</html>
