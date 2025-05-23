@@ -111,7 +111,19 @@
     document.getElementById("examResult").textContent = score3.toFixed(2) + "%";
     document.getElementById("totalScore").textContent = (score1 + score2 + score3).toFixed(2) + "%";
   }
+
+  // تحديث تلقائي عند التغيير أو الإدخال
+  const inputs = [
+    "performanceRating", "certifiedPrograms", "trainingPrograms",
+    "selfLearning", "onJobTraining", "examScore"
+  ];
+  inputs.forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener("change", calculate);
+    el.addEventListener("input", calculate);
+  });
 </script>
+
 
 </body>
 </html>
