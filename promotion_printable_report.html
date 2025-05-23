@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تقرير حاسبة الترقية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      direction: rtl;
+      background-color: #fff;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .report-container {
+      max-width: 800px;
+      margin: auto;
+      border: 1px solid #ccc;
+      padding: 30px;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+    }
+    .section {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .section h2 {
+      font-size: 18px;
+      color: #1a237e;
+      margin-bottom: 5px;
+    }
+    .summary {
+      background: linear-gradient(to left, #a8e063, #56ab2f);
+      color: white;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #777;
+    }
+    .print-button {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      padding: 10px 20px;
+      background-color: #0d47a1;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    @media print {
+      .print-button { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="report-container">
+  <h1>تقرير حاسبة معايير الترقية</h1>
+
+  <div class="section">
+    <h2>تقييم الأداء الوظيفي:</h2>
+    <p>30.00%</p>
+  </div>
+
+  <div class="section">
+    <h2>برامج التدريب والتطوير:</h2>
+    <p>28.75%</p>
+  </div>
+
+  <div class="section">
+    <h2>اختبار القدرة المعرفية:</h2>
+    <p>24.00%</p>
+  </div>
+
+  <div class="summary">
+    النتيجة النهائية: 82.75%
+  </div>
+
+  <button class="print-button" onclick="window.print()">📄 طباعة أو حفظ التقرير</button>
+
+  <div class="footer">
+    هذا التقرير تم توليده تلقائيًا من حاسبة Amani HR<br>
+    جميع الحقوق محفوظة © 2025
+  </div>
+</div>
+
+</body>
+</html>
