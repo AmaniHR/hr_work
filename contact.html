@@ -18,16 +18,13 @@
 </head>
 <body>
 
-<header>
-  <img src="https://AmaniHR.github.io/hr_work/header.png" alt="Amani HR Header">
-</header>
+<div id="shared-header"></div>
+<script>
+  fetch("header_nav.html")
+    .then(res => res.text())
+    .then(data => document.getElementById("shared-header").innerHTML = data);
+</script>
 
-<nav>
-  <a href="index.html">الرئيسية</a>
-  <a href="blog.html">المدونة</a>
-  <a href="tools.html">الأدوات التفاعلية</a>
-  <a href="contact.html">تواصل معنا</a>
-</nav>
 
 <div class="contact-form">
   <h2>📬 تواصل معنا</h2>
