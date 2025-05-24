@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>📚 دوراتي التدريبية | Amani HR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com">
+    function generateReport() {
+      const sourceTable = document.getElementById("courseTableBody").cloneNode(true);
+      const reportBody = document.getElementById("reportTableBody");
+      reportBody.innerHTML = "";
+      [...sourceTable.children].forEach(row => {
+        const newRow = document.createElement("tr");
+        [...row.children].slice(0, 7).forEach(cell => {
+          const newCell = document.createElement("td");
+          newCell.className = "border p-2";
+          newCell.textContent = cell.textContent;
+          newRow.appendChild(newCell);
+        });
+        reportBody.appendChild(newRow);
+      });
+    }
+
+</script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <header>
+    <img src="https://AmaniHR.github.io/hr_work/header.png" alt="Amani HR Header" class="w-full max-h-72 object-cover">
+  </header>
+
+  <nav class="bg-blue-900 text-white text-center py-3">
+    <a href="index.html" class="mx-2 hover:underline">الرئيسية</a>
+    <a href="blog.html" class="mx-2 hover:underline">المدونة</a>
+    <a href="tools.html" class="mx-2 hover:underline">الأدوات التفاعلية</a>
+    <a href="contact.html" class="mx-2 hover:underline">تواصل معنا</a>
+  </nav>
+
+  <div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold text-center text-blue-800 mb-6">📚 سجل دوراتي التدريبية</h1>
+
+    <div class="bg-white p-6 rounded-xl shadow mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <input type="date" id="date" class="p-2 border rounded" placeholder="التاريخ" />
+        <input type="text" id="title" class="p-2 border rounded" placeholder="اسم البرنامج التدريبي" />
+        <input type="text" id="provider" class="p-2 border rounded" placeholder="الجهة المقدّمة" />
+        <select id="programType" class="p-2 border rounded">
+          <option value="">نوع البرنامج</option>
+          <option value="دولي">دولي</option>
+          <option value="حكومي">حكومي</option>
+          <option value="خاص">خاص</option>
+        </select>
+        <select id="certificateType" class="p-2 border rounded">
+          <option value="">نوع الشهادة</option>
+          <option value="برنامج اعتماد">برنامج اعتماد</option>
+          <option value="منتهية باختبار">منتهية باختبار</option>
+          <option value="شهادة اجتياز">شهادة اجتياز</option>
+          <option value="إثرائي">إثرائي</option>
+        </select>
+        <input type="text" id="grade" class="p-2 border rounded" placeholder="التقدير" />
+        <input type="text" id="notes" class="p-2 border rounded col-span-1 md:col-span-3" placeholder="ملاحظات" />
+      </div>
+      <button onclick="addRow()" class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">➕ إضافة الدورة</button>
+    </div>
+
+    <div class="text-center mt-6">
+      <button onclick="printTable()" class="bg-gray-800 text-white px-8 py-2 rounded hover:bg-gray-900">📄 عرض جدول الدورات</button>
+    </div>
+
+    <div class="overflow-x-auto mt-10 hidden-print">
+      <table class="min-w-full bg-white rounded-xl shadow text-sm text-center">
+        <thead class="bg-blue-800 text-white">
+          <tr>
+            <th class="p-2 border">التاريخ</th>
+            <th class="p-2 border">اسم البرنامج التدريبي</th>
+            <th class="p-2 border">الجهة المقدّمة</th>
+            <th class="p-2 border">نوع البرنامج</th>
+            <th class="p-2 border">نوع الشهادة</th>
+            <th class="p-2 border">التقدير</th>
+            <th class="p-2 border">ملاحظات</th>
+            <th class="p-2 border">🗑️</th>
+          </tr>
+        </thead>
+        <tbody id="courseTableBody"></tbody>
+      </table>
+    
+    <div class="text-center mt-4">
+      <a href="training_report.html" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">📄 عرض تقرير الدورات</a>
+    </div>
+
+  </div>
+
+  <script>
+    function addRow() {
+      const date = document.getElementById("date").value;
+      const title = document.getElementById("title").value;
+      const provider = document.getElementById("provider").value;
+      const programType = document.getElementById("programType").value;
+      const certificateType = document.getElementById("certificateType").value;
+      const grade = document.getElementById("grade").value;
+      const notes = document.getElementById("notes").value;
+
+      if (!date || !title || !provider || !programType || !certificateType) {
+        alert("يرجى تعبئة جميع الحقول الأساسية.");
+        return;
+      }
+
+      const tbody = document.getElementById("courseTableBody");
+      const row = document.createElement("tr");
+
+      [date, title, provider, programType, certificateType, grade, notes].forEach(text => {
+        const cell = document.createElement("td");
+        cell.className = "border p-2";
+        cell.textContent = text;
+        row.appendChild(cell);
+      });
+
+      const deleteCell = document.createElement("td");
+      deleteCell.className = "border p-2";
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "❌";
+      delBtn.className = "text-red-600 hover:underline";
+      delBtn.onclick = () => row.remove();
+      deleteCell.appendChild(delBtn);
+      row.appendChild(deleteCell);
+
+      tbody.appendChild(row);
+      document.querySelectorAll("input, select").forEach(el => el.value = "");
+    }
+
+    function printTable() {
+      window.print();
+    }
+  
+    function generateReport() {
+      const sourceTable = document.getElementById("courseTableBody").cloneNode(true);
+      const reportBody = document.getElementById("reportTableBody");
+      reportBody.innerHTML = "";
+      [...sourceTable.children].forEach(row => {
+        const newRow = document.createElement("tr");
+        [...row.children].slice(0, 7).forEach(cell => {
+          const newCell = document.createElement("td");
+          newCell.className = "border p-2";
+          newCell.textContent = cell.textContent;
+          newRow.appendChild(newCell);
+        });
+        reportBody.appendChild(newRow);
+      });
+    }
+
+</script>
+
+  <style>
+    @media print {
+      nav, header, .hidden-print, button {
+        display: none !important;
+      }
+      table {
+        border: 1px solid #000;
+        width: 100%;
+        font-size: 14px;
+      }
+    }
+  </style>
+
+    <h2 class="text-xl font-bold text-blue-700 mt-12 mb-4 text-center">📄 تقرير دوراتي التدريبية</h2>
+    <div class="overflow-x-auto mt-4">
+      <table class="min-w-full bg-white rounded-xl shadow text-sm text-center">
+        <thead class="bg-blue-800 text-white">
+          <tr>
+            <th class="p-2 border">📅 التاريخ</th>
+            <th class="p-2 border">📌 اسم البرنامج التدريبي</th>
+            <th class="p-2 border">🏛️ الجهة المقدّمة</th>
+            <th class="p-2 border">📂 نوع البرنامج</th>
+            <th class="p-2 border">📑 نوع الشهادة</th>
+            <th class="p-2 border">📈 التقدير</th>
+            <th class="p-2 border">📝 ملاحظات</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody">
+          <!-- سيتم نسخ البيانات هنا -->
+        </tbody>
+      </table>
+    </div>
+    <div class="text-center mt-4">
+      <button onclick="generateReport()" class="bg-green-700 text-white px-6 py-2 rounded hover:bg-green-800">📄 تحديث التقرير</button>
+      <button onclick="window.print()" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800">🖨️ طباعة</button>
+    </div>
+
+</body>
+</html>
