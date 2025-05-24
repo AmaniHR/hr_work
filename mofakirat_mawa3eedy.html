@@ -11,6 +11,10 @@
     .controls { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 20px 0; }
     .controls select, .controls button { padding: 8px 12px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
     .calendar { text-align: center; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+    th { background-color: #0d47a1; color: white; }
+    td { background-color: #f9f9f9; }
   </style>
 </head>
 <body>
@@ -28,14 +32,10 @@
     </select>
 
     <label for="monthSelect">الشهر:</label>
-    <select id="monthSelect">
-      <!-- يتم تعبئتها ديناميكيًا -->
-    </select>
+    <select id="monthSelect"></select>
 
     <label for="yearSelect">السنة:</label>
-    <select id="yearSelect">
-      <!-- يتم تعبئتها ديناميكيًا -->
-    </select>
+    <select id="yearSelect"></select>
 
     <button onclick="renderCalendar()">عرض التقويم</button>
   </div>
@@ -47,6 +47,7 @@
 <script>
   const monthSelect = document.getElementById("monthSelect");
   const yearSelect = document.getElementById("yearSelect");
+  const calendarContainer = document.getElementById("calendarContainer");
 
   function populateDropdowns() {
     const months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
@@ -67,13 +68,41 @@
   }
 
   function renderCalendar() {
+    const type = document.getElementById("calendarType").value;
     const month = parseInt(monthSelect.value);
     const year = parseInt(yearSelect.value);
-    const type = document.getElementById("calendarType").value;
-    const container = document.getElementById("calendarContainer");
 
-    container.innerHTML = `<p>📆 تقويم ${type === 'hijri' ? 'هجري' : 'ميلادي'} لشهر ${month + 1} / ${year}</p>
-                           <p>(هنا سيتم عرض التقويم الفعلي لاحقًا)</p>`;
+    if (type === "hijri") {
+      calendarContainer.innerHTML = `<p>🔧 سيتم دعم التقويم الهجري قريبًا.</p>`;
+      return;
+    }
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startDay = firstDay.getDay(); // 0=Sunday, 6=Saturday
+
+    const arabicDays = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
+    let table = `<table><thead><tr>`;
+    for (let i = 0; i < 7; i++) {
+      table += `<th>${arabicDays[i]}</th>`;
+    }
+    table += `</tr></thead><tbody><tr>`;
+
+    for (let i = 0; i < (startDay === 0 ? 6 : startDay - 1); i++) {
+      table += `<td></td>`;
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const currentDate = new Date(year, month, day);
+      const weekDay = currentDate.getDay();
+      table += `<td>${day}</td>`;
+      if (weekDay === 6) table += `</tr><tr>`;
+    }
+
+    table += `</tr></tbody></table>`;
+    calendarContainer.innerHTML = table;
   }
 
   window.onload = populateDropdowns;
