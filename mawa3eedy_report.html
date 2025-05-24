@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>📋 جدول مواعيدي | Amani HR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; text-align: center; }
+    header img { width: 100%; max-height: 200px; object-fit: cover; display: block; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    th, td { border: 1px solid #ccc; padding: 10px; font-size: 16px; }
+    th { background-color: #e3f2fd; color: #0d47a1; }
+    h1 { color: #0d47a1; margin-bottom: 20px; }
+    .print-btn { margin-top: 20px; padding: 10px 20px; font-size: 16px; background: #0d47a1; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .print-btn:hover { background: #1565c0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://amanihr.github.io/hr_work/header.png" alt="Amani HR Header">
+</header>
+
+<h1>📋 جدول مواعيدي</h1>
+
+<table id="appointmentsTable">
+  <thead>
+    <tr>
+      <th>التاريخ</th>
+      <th>عنوان الموعد</th>
+      <th>الملاحظات</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<button class="print-btn" onclick="window.print()">🖨️ طباعة الصفحة</button>
+
+<script>
+  const tbody = document.querySelector("#appointmentsTable tbody");
+  const allKeys = Object.keys(localStorage).sort();
+
+  let hasAppointments = false;
+
+  allKeys.forEach(key => {
+    if (/\d{4}-\d{2}-\d{2}/.test(key)) {
+      const data = JSON.parse(localStorage.getItem(key));
+      if (data && data.title) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${key}</td><td>${data.title}</td><td>${data.notes || ""}</td>`;
+        tbody.appendChild(row);
+        hasAppointments = true;
+      }
+    }
+  });
+
+  if (!hasAppointments) {
+    const row = document.createElement("tr");
+    row.innerHTML = '<td colspan="3">لا توجد مواعيد مسجلة</td>';
+    tbody.appendChild(row);
+  }
+</script>
+
+</body>
+</html>
