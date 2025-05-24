@@ -9,15 +9,13 @@
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
-<header>
-<img alt="Amani HR Header" class="w-full max-h-72 object-cover" src="https://AmaniHR.github.io/hr_work/header.png"/>
-</header>
-<nav class="bg-blue-900 text-white text-center py-3">
-<a class="mx-2 hover:underline" href="index.html">الرئيسية</a>
-<a class="mx-2 hover:underline" href="blog.html">المدونة</a>
-<a class="mx-2 hover:underline" href="tools.html">الأدوات التفاعلية</a>
-<a class="mx-2 hover:underline" href="contact.html">تواصل معنا</a>
-</nav>
+<div id="shared-header"></div>
+<script>
+  fetch("header_nav.html")
+    .then(res => res.text())
+    .then(data => document.getElementById("shared-header").innerHTML = data);
+</script>
+
 <div class="max-w-6xl mx-auto p-6">
 <h1 class="text-2xl font-bold text-center text-blue-800 mb-6">📚 سجل دوراتي التدريبية</h1>
 <div class="bg-white p-6 rounded-xl shadow mb-8">
