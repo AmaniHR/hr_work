@@ -1,96 +1,0 @@
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>Amani HR Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'Tajawal', sans-serif; margin: 0; background-color: #f9f9f9; color: #333; }
-    header img { width: 100%; max-height: 280px; object-fit: cover; display: block; }
-    nav { background-color: #0d47a1; text-align: center; padding: 10px 0; }
-    nav a { color: white; margin: 0 20px; text-decoration: none; font-weight: bold; font-size: 16px; }
-    .container { padding: 30px; max-width: 1000px; margin: auto; }
-    .intro { text-align: center; margin-bottom: 40px; }
-    .intro h1 { margin-bottom: 10px; color: #0d47a1; }
-    .intro p { font-size: 18px; color: #555; }
-    .posts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .post { background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .post h3 { margin-top: 0; color: #1a237e; }
-    .post p { color: #555; font-size: 15px; }
-    #daily-quote { background-color: #fff; border: 2px solid #0d47a1; border-radius: 12px; padding: 20px; max-width: 300px; margin: 20px; float: right; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    #daily-quote h3 { color: #0d47a1; margin-top: 0; }
-    #daily-quote p { font-size: 16px; color: #444; margin: 0; }
-    footer { text-align: center; padding: 20px; font-size: 14px; color: #aaa; }
-    @media (max-width: 768px) {
-      .posts { grid-template-columns: 1fr; }
-      #daily-quote { float: none; margin: 10px auto; }
-    }
-  </style>
-</head>
-<body>
-
-<header>
-  <img src="https://amani987.github.io/hr_work/header.png" alt="Amani HR Header">
-</header>
-
-<nav>
-  <a href="index.html">الرئيسية</a>
-  <a href="blog.html">المدونة</a>
-  <a href="calculator.html">حاسبة الترقية</a>
-  <a href="contact.html">تواصل معنا</a>
-</nav>
-
-<div id="daily-quote">
-  <h3>🌞 إشراقة اليوم</h3>
-  <p id="quoteText"></p>
-</div>
-
-<div class="container">
-  <div class="intro">
-    <h1>مرحبًا بك في Amani HR</h1>
-    <p>منصة معرفية متخصصة في تطوير الموارد البشرية، القيادة، والترقية المهنية.</p>
-  </div>
-
-  <div class="posts">
-    <div class="post">
-      <h3>🎯 كيف تبدأ مسارك في الموارد البشرية؟</h3>
-      <p>الموارد البشرية مجال ديناميكي ومتجدد. في هذا المقال نناقش أولى خطواتك نحو التميز في هذا المجال.</p>
-    </div>
-    <div class="post">
-      <h3>📊 أدوات رقمية تساعدك في تقييم الأداء</h3>
-      <p>تعرف على أفضل الأدوات التي تسهّل عليك تحليل الأداء وتحسين قرارات الترقية.</p>
-    </div>
-    <div class="post">
-      <h3>📝 كيف تكتب أهدافك الوظيفية باحتراف؟</h3>
-      <p>صياغة الأهداف ليست مهمة شكلية، بل أساسية لتقدمك المهني. إليك الطرق الفعالة لذلك.</p>
-    </div>
-    <div class="post">
-      <h3>🚀 الترقية الوظيفية: استحقاق أم سعي؟</h3>
-      <p>في هذا المقال نتناول الفرق بين من يترقى تلقائيًا، ومن يسعى لها بكل وعي.</p>
-    </div>
-  </div>
-</div>
-
-<footer>
-  © 2025 Amani HR Blog - جميع الحقوق محفوظة
-</footer>
-
-<script>
-  const quotes = [
-    "كل يوم فرصة جديدة لتكون أفضل.",
-    "الإبداع لا حدود له، فقط آمن بنفسك.",
-    "ابدأ صغيرًا، فكر كبيرًا، انطلق الآن.",
-    "النجاح لا يحتاج إذنًا، فقط قرارًا.",
-    "افعل شيئًا اليوم يفتخر به الغد.",
-    "الثقة بالنفس هي أول خطوة نحو النجاح.",
-    "أنت المسؤول عن طاقتك وإنتاجك."
-  ];
-
-  const today = new Date();
-  const index = today.getDate() % quotes.length;
-  document.getElementById("quoteText").textContent = quotes[index];
-</script>
-
-</body>
-</html>
