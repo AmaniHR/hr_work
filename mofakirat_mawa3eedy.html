@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>📅 مفكرة مواعيدي | Amani HR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Tajawal', sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; text-align: center; }
+    header img { width: 100%; max-height: 250px; object-fit: cover; display: block; }
+    select, button { padding: 8px 12px; margin: 10px; font-size: 16px; }
+    #calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; max-width: 800px; margin: 20px auto; }
+    .day { background: white; padding: 10px; border-radius: 8px; box-shadow: 0 1px 5px rgba(0,0,0,0.1); cursor: pointer; position: relative; }
+    .day:hover { background: #e3f2fd; }
+    .day small { display: block; font-size: 13px; color: #777; margin-top: 5px; }
+    .dot { position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background-color: green; border-radius: 50%; }
+    .controls { margin: 20px 0; }
+    h1 { color: #0d47a1; margin-top: 20px; }
+    footer { margin-top: 40px; color: #777; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://AmaniHR.github.io/hr_work/header.png" alt="Amani HR Header">
+</header>
+
+<h1>📅 مفكرة مواعيدي</h1>
+
+<div class="controls">
+  <label>الشهر:
+    <select id="monthSelect"></select>
+  </label>
+  <label>السنة:
+    <select id="yearSelect"></select>
+  </label>
+  <button onclick="renderCalendar()">عرض التقويم</button>
+</div>
+
+<div id="calendar"></div>
+
+<div style="margin-top: 30px;">
+  <a href="export_events_calendar.html" target="_blank">
+    <button style="padding: 10px 20px; font-size: 16px;">📄 تصدير المواعيد</button>
+  </a>
+</div>
+
+<footer>© 2025 Amani HR</footer>
+
+<script>
+  const monthNames = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+  let selectedDateKey = "";
+
+  function renderCalendar() {
+    const calendar = document.getElementById("calendar");
+    const month = parseInt(document.getElementById("monthSelect").value);
+    const year = parseInt(document.getElementById("yearSelect").value);
+    calendar.innerHTML = "";
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      const empty = document.createElement("div");
+      calendar.appendChild(empty);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement("div");
+      cell.className = "day";
+      const currentDate = new Date(year, month, day);
+      const weekday = currentDate.toLocaleDateString('ar-SA', { weekday: 'long' });
+      const key = currentDate.toISOString().split('T')[0];
+      const stored = JSON.parse(localStorage.getItem(key));
+
+      cell.innerHTML = `<strong>${day}</strong><small>${weekday}</small>`;
+      if (stored) cell.innerHTML += '<div class="dot"></div>';
+
+      calendar.appendChild(cell);
+    }
+  }
+
+  const yearSelect = document.getElementById("yearSelect");
+  const monthSelect = document.getElementById("monthSelect");
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear - 5; y <= currentYear + 10; y++) {
+    const opt = document.createElement("option");
+    opt.value = y;
+    opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+
+  monthNames.forEach((name, i) => {
+    const opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = name;
+    monthSelect.appendChild(opt);
+  });
+
+  yearSelect.value = currentYear;
+  monthSelect.value = new Date().getMonth();
+  renderCalendar();
+</script>
+
+</body>
+</html>
