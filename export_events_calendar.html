@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تصدير مواعيدي إلى PDF</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @font-face {
+      font-family: 'Cairo';
+      src: url('fonts/Cairo-Regular.ttf') format('truetype');
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9f9f9;
+      padding: 30px;
+      direction: rtl;
+      text-align: center;
+    }
+    h1 {
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+    p { color: #333; margin-bottom: 20px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      font-size: 15px;
+    }
+    th {
+      background-color: #eeeeee;
+    }
+    button {
+      font-family: 'Cairo';
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📝 تصدير مواعيدي إلى PDF</h1>
+<p>اضغط على الزر أدناه لتحميل جدول المواعيد الخاص بك بصيغة PDF</p>
+
+<button onclick="generatePDF()">📥 تحميل PDF</button>
+
+<table id="eventsTable">
+  <thead>
+    <tr>
+      <th>📅 التاريخ</th>
+      <th>📌 العنوان</th>
+      <th>📝 ملاحظات</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  const storedEvents = Object.entries(localStorage)
+    .filter(([key, value]) => key.match(/^\d{4}-\d{2}-\d{2}$/))
+    .sort(([a], [b]) => a.localeCompare(b));
+
+  const tbody = document.querySelector('#eventsTable tbody');
+  storedEvents.forEach(([date, data]) => {
+    const { title, notes } = JSON.parse(data);
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${date}</td><td>${title}</td><td>${notes}</td>`;
+    tbody.appendChild(row);
+  });
+
+  async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'p', unit: 'pt', format: 'a4' });
+    const fontUrl = './fonts/Cairo-Regular.ttf';
+    const font = await fetch(fontUrl).then(res => res.arrayBuffer());
+
+    doc.addFileToVFS("Cairo-Regular.ttf", btoa(String.fromCharCode(...new Uint8Array(font))));
+    doc.addFont("Cairo-Regular.ttf", "Cairo", "normal");
+    doc.setFont("Cairo");
+
+    doc.setFontSize(16);
+    doc.text("📅 جدول مواعيدي", 220, 50, { align: "center" });
+
+    let y = 90;
+    doc.setFontSize(12);
+    storedEvents.forEach(([date, data], index) => {
+      const { title, notes } = JSON.parse(data);
+      doc.text(`📅 ${date}`, 40, y);
+      doc.text(`📌 ${title}`, 140, y);
+      doc.text(`📝 ${notes}`, 300, y);
+      y += 30;
+      if (y > 750) { doc.addPage(); y = 50; }
+    });
+
+    doc.save("مواعيدي.pdf");
+  }
+</script>
+
+</body>
+</html>
