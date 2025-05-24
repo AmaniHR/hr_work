@@ -1,67 +1,0 @@
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <title>📄 تقرير دوراتي التدريبية</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @media print {
-      button, .noprint {
-        display: none !important;
-      }
-    }
-  </style>
-</head>
-<body class="bg-gray-100 text-gray-800 font-sans p-6">
-
-  <h1 class="text-2xl font-bold text-center text-blue-800 mb-2">📄 تقرير دوراتي التدريبية</h1>
-  <p class="text-center text-gray-600 mb-6">قائمة بجميع البرامج التدريبية التي تم إدخالها عبر أداة "دوراتي التدريبية".</p>
-
-  <div class="text-center noprint mb-4">
-    <button onclick="window.print()" class="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800">🖨️ طباعة التقرير</button>
-  </div>
-
-  <div class="overflow-x-auto">
-    <table class="min-w-full bg-white rounded-xl shadow text-sm text-center">
-      <thead class="bg-blue-800 text-white">
-        <tr>
-          <th class="p-2 border">📅 التاريخ</th>
-          <th class="p-2 border">📌 اسم البرنامج التدريبي</th>
-          <th class="p-2 border">🏛️ الجهة المقدّمة</th>
-          <th class="p-2 border">📂 نوع البرنامج</th>
-          <th class="p-2 border">📑 نوع الشهادة</th>
-          <th class="p-2 border">📈 التقدير</th>
-          <th class="p-2 border">📝 ملاحظات</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="border">
-          <td class="p-2">2025-05-21</td>
-          <td class="p-2">إدارة الفعاليات</td>
-          <td class="p-2">معهد الإدارة العامة</td>
-          <td class="p-2">حكومي</td>
-          <td class="p-2">شهادة اجتياز</td>
-          <td class="p-2">ممتاز</td>
-          <td class="p-2">تم احتسابها ضمن الترقية</td>
-        </tr>
-        <tr class="border">
-          <td class="p-2">2025-04-10</td>
-          <td class="p-2">مهارات القيادة النسائية</td>
-          <td class="p-2">أكاديمية إثرائي</td>
-          <td class="p-2">إثرائي</td>
-          <td class="p-2">إثرائي</td>
-          <td class="p-2">اجتياز</td>
-          <td class="p-2">برنامج إلكتروني</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <footer class="text-center text-sm text-gray-400 mt-10">
-    Amani HR © 2025 - جميع الحقوق محفوظة
-  </footer>
-
-</body>
-</html>
