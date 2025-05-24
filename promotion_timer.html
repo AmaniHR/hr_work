@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>أداة حساب المدة المتبقية للترقية</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans p-4">
+
+<div id="shared-header"></div>
+<script>
+  fetch("header_nav.html")
+    .then(res => res.text())
+    .then(data => document.getElementById("shared-header").innerHTML = data);
+</script>
+
+<div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg mt-8">
+  <h1 class="text-2xl font-bold text-center mb-4">أداة حساب المدة المتبقية للترقية</h1>
+
+  <label class="block mb-2 font-medium">تاريخ الترقية الحالية:</label>
+  <input class="w-full mb-4 p-2 border rounded" id="promotionDate" type="date"/>
+
+  <label class="block mb-2 font-medium">المرتبة الحالية:</label>
+  <select class="w-full mb-4 p-2 border rounded" id="currentRank">
+    <option value="6">المرتبة السادسة</option>
+    <option value="7">المرتبة السابعة</option>
+    <option value="8">المرتبة الثامنة</option>
+    <option value="9">المرتبة التاسعة</option>
+    <option value="10">المرتبة العاشرة</option>
+  </select>
+
+  <label class="block mb-2 font-medium">المؤهل العلمي:</label>
+  <select class="w-full mb-4 p-2 border rounded" id="qualification">
+    <option value="doctorate">دكتوراه</option>
+    <option value="master">ماجستير</option>
+    <option value="bachelor_science">بكالوريوس علمي</option>
+    <option value="bachelor_arts">بكالوريوس نظري</option>
+    <option value="diploma">دبلوم بعد الثانوية</option>
+    <option value="highschool">الثانوية العامة</option>
+    <option value="intermediate">الكفاءة المتوسطة</option>
+    <option value="elementary">الابتدائية</option>
+  </select>
+
+  <button class="bg-blue-600 text-white w-full py-2 rounded mt-4 hover:bg-blue-700" onclick="calculate()">
+    احسب المدة المتبقية
+  </button>
+
+  <div class="mt-6 text-center text-lg font-semibold" id="result"></div>
+</div>
+
+<script>
+  function calculate() {
+    const promotionDate = new Date(document.getElementById('promotionDate').value);
+    const qualification = document.getElementById('qualification').value;
+
+    if (!promotionDate || isNaN(promotionDate.getTime())) {
+      document.getElementById('result').textContent = 'يرجى إدخال تاريخ الترقية.';
+      return;
+    }
+
+    let yearsRequired = 4;
+    if (qualification === 'doctorate' || qualification === 'master' || qualification === 'bachelor_science') {
+      yearsRequired = 1;
+    }
+
+    const nextPromotionDate = new Date(promotionDate);
+    nextPromotionDate.setFullYear(nextPromotionDate.getFullYear() + yearsRequired);
+
+    const now = new Date();
+    const diffTime = nextPromotionDate - now;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) {
+      document.getElementById('result').textContent = 'أنت مؤهل حاليًا للتقديم على الترقية 🎉';
+    } else {
+      const years = Math.floor(diffDays / 365);
+      const months = Math.floor((diffDays % 365) / 30);
+      const days = (diffDays % 365) % 30;
+
+      document.getElementById('result').textContent =
+        `المتبقي على الترقية: ${years} سنة، ${months} شهر، ${days} يوم.
+` +
+        `تاريخ الترقية المتوقع: ${nextPromotionDate.toLocaleDateString('ar-EG')}`;
+    }
+  }
+</script>
+
+</body>
+</html>
